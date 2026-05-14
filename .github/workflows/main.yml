@@ -2,21 +2,22 @@ name: Daily Stock Alarm
 
 on:
   schedule:
-    - cron: '40 6 * * *' # 한국 시간 오후 3시 40분
+    - cron: '40 6 * * *' 
   workflow_dispatch: 
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4 # v3에서 v4로 변경
+      - uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v5 # v4에서 v5로 변경
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
       - name: Install dependencies
         run: |
-          pip install finance-datareader python-telegram-bot
+          pip install finance-datareader
+          pip install python-telegram-bot==20.3 # 안정 버전 고정
       - name: Run bot
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
