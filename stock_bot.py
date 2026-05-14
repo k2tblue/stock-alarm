@@ -52,7 +52,7 @@ async def main():
     except Exception as e:
         print(f"텔레그램 전송 실패: {e}")
         sys.exit(1)
-
+ 
 # 기존의 await run_bot()을 지우고 아래 내용을 넣으세요.
 if __name__ == "__main__":
     asyncio.run(run_bot())
