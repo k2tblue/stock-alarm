@@ -2,7 +2,7 @@ name: Daily Stock Alarm
 
 on:
   schedule:
-    - cron: '40 3 * * *' 
+   - cron: '40 6 * * 1-5' # 월,화,수,목,금 오후 3시 40분에만 실행
   workflow_dispatch: 
 
 jobs:
@@ -19,12 +19,19 @@ jobs:
           python-version: '3.10'
 
       - name: Install dependencies
+        # 두 스크립트에 필요한 모든 도구(finance-datareader, python-telegram-bot, pykrx, feedparser 등)를 설치합니다.
         run: |
-          pip install finance-datareader
+          pip install finance-datareader feedparser requests pandas
           pip install python-telegram-bot==20.3
+          pip install pykrx
           
-      - name: Run bot
+      - name: Run 1 - Stock Bot (이격도 & 저가보충)
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python stock_bot.py
+
+      - name: Run 2 - Integrated Pipeline (국장 퀀트 선별 리포트)
+        # 💡 새로 만든 파이프라인 스크립트를 이어서 실행합니다.
+        # 코드 내부에 이미 DART 키와 텔레그램 정보가 하드코딩되어 있어 바로 실행 가능합니다.
+        run: python run_integrated_pipeline.py
