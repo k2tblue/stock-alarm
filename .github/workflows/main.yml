@@ -2,7 +2,7 @@ name: Daily Stock Alarm
 
 on:
   schedule:
-    - cron: '40 6 * * *' 
+    - cron: '40 3 * * *' 
   workflow_dispatch: 
 
 jobs:
